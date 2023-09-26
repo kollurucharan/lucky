@@ -1,0 +1,12 @@
+com\boot\vamsi\mapper\InsurancePolicyScheduleRowMapper.class
+com\boot\vamsi\DAO\InsuranceDAoImplement.class
+com\boot\vamsi\repository\InsuranceRepository.class
+com\boot\vamsi\VamsiApplication.class
+com\boot\vamsi\mapper\InsurancePackageMapper.class
+com\boot\vamsi\model\InsurancePackage.class
+com\boot\vamsi\controller\InsuranceRestController.class
+com\boot\vamsi\DAO\InsuranceDAO.class
+com\boot\vamsi\model\InsurancePolicySchedule.class
+com\boot\vamsi\model\InsurancePolicy.class
+com\boot\vamsi\controller\InsuranceController.class
+com\boot\vamsi\mapper\InsurancePolicyRowMapper.class

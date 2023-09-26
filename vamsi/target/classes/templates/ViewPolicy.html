@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Insurance Policies</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5">Insurance Policies</h1>
+    <table id="insurancePolicyTable" class="table table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Customer ID</th>
+                <th>Creation Date</th>
+                <th>Sum Assured</th>
+                <th>Applicable Date</th>
+                <th>No of members Insured</th>
+                <th>Insurance package ID</th>
+                <th>Yearly Premium Amount</th>
+                <th>Payment Mode Count</th>
+                <th>Expiration Date</th>
+                <th>Agent ID</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Use Thymeleaf syntax for data binding -->
+            <tr th:each="policy : ${policies}">
+                <td th:text="${policy.iplc_id}"></td>
+                <td th:text="${policy.iplc_cust_id}"></td>
+                <td th:text="${policy.iplc_cdate}"></td>
+                <td th:text="${policy.iplc_sum_assured}"></td>
+                <td th:text="${policy.iplc_applicable_date}"></td>
+                <td th:text="${policy.iplc_nom_insured}"></td>
+                <td th:text="${policy.iplc_insp_id}"></td>
+                <td th:text="${policy.iplc_yrly_prem_amount}"></td>
+                <td th:text="${policy.iplc_paymode_count}"></td>
+                <td th:text="${policy.iplc_expdate}"></td>
+                <td th:text="${policy.iplc_agnt_id}"></td>
+                <td th:text="${policy.iplc_status}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/link" class="btn btn-primary mt-3">Back to Links</a>
+</div>
+</body>
+</html>

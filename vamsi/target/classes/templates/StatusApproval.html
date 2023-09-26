@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insurance Policy List</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Insurance Policy List</h2>
+            </div>
+        </div>
+        <div class="row table-container">
+            <div class="col-md-12">
+                <table class="table table-bordered" id="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer ID</th>
+                            <th>Creation Date</th>
+                            <th>Sum Assured</th>
+                            <th>Applicable Date</th>
+                            <th>No of members Insured</th>
+                            <th>Insurance package ID</th>
+                            <th>Yearly Premium Amount</th>
+                            <th>Payment Mode Count</th>
+                            <th>Expiration Date</th>
+                            <th>Agent ID</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Use Thymeleaf syntax for data binding -->
+                        <tr th:each="policy : ${policies}">
+                            <td th:text="${policy.iplc_id}"></td>
+                            <td th:text="${policy.iplc_cust_id}"></td>
+                            <td th:text="${policy.iplc_cdate}"></td>
+                            <td th:text="${policy.iplc_sum_assured}"></td>
+                            <td th:text="${policy.iplc_applicable_date}"></td>
+                            <td th:text="${policy.iplc_nom_insured}"></td>
+                            <td th:text="${policy.iplc_insp_id}"></td>
+                            <td th:text="${policy.iplc_yrly_prem_amount}"></td>
+                            <td th:text="${policy.iplc_paymode_count}"></td>
+                            <td th:text="${policy.iplc_expdate}"></td>
+                            <td th:text="${policy.iplc_agnt_id}"></td>
+                            <td th:text="${policy.iplc_status}"></td>
+                            <td>
+                                <button type="button" class="btn btn-warning custom-button"
+                                    th:onclick="'javascript:editPolicy(' + ${policy.iplc_id} + ', \'approved\')'">Approve</button>
+                                <button type="button" class="btn btn-danger custom-button"
+                                    th:onclick="'javascript:editPolicy(' + ${policy.iplc_id} + ', \'cancelled\')'">Cancel</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+ <a href="/link" class="btn btn-primary mt-3">Back to Links</a>
+    <script th:inline="javascript">
+    function editPolicy(id, status) {
+        
+        var urlWithParams = '/UpdatestatusPolicy?iplc_id=' + id + '&iplc_status=' + status;
+        
+        window.location.href = urlWithParams;
+    }
+
+        displayPolicies();
+    </script>
+</body>
+
+</html>

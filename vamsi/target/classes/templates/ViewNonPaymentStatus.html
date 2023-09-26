@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Non-Payment Status</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Non-Payment Status</h1>
+        <p>Non-Payment Count: <span th:text="${policies}" class="font-weight-bold"></span></p>
+        <a href="/StatusPaymentById" class="btn btn-primary mt-3">Back to Policy Schedules</a>
+    </div>
+</body>
+</html>
