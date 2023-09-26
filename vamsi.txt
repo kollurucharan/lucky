@@ -1,0 +1,85 @@
+CREATE TABLE Agent (
+  agnt_id int PRIMARY KEY,
+  agnt_name VARCHAR(255)
+);
+
+INSERT INTO Agent  VALUES
+(1,'John Doe'),
+(2,'Jane Doe'),
+(3,'Peter Parker'),
+(4,'Mary Jane Watson'),
+(5,'Bruce Wayne');
+
+select * from Agent;
+select * from InsurancePackages;
+
+CREATE TABLE InsurancePolicies1 (
+    iplc_id SERIAL  PRIMARY KEY,
+    iplc_cust_id INT,
+    iplc_cdate DATE,
+    iplc_sum_assured NUMERIC,
+    iplc_applicable_date DATE,
+    iplc_nom_insured INT,
+    iplc_insp_id INT REFERENCES InsurancePackages(insp_id), 
+    iplc_yrly_prem_amount NUMERIC,
+    iplc_paymode_count INT,
+    iplc_expdate DATE,
+    iplc_agnt_id INT REFERENCES Agent(agnt_id),
+    iplc_status VARCHAR(255) DEFAULT 'pending'
+);
+
+
+
+	INSERT INTO InsurancePolicies1 (
+    iplc_cust_id,
+    iplc_cdate,
+    iplc_sum_assured,
+    iplc_applicable_date,
+    iplc_nom_insured,
+    iplc_insp_id,
+    iplc_yrly_prem_amount,
+    iplc_paymode_count,
+    iplc_expdate,
+    iplc_agnt_id
+) VALUES
+    (1, '2023-09-26', 10000.00, '2023-09-30', 2, 1, 500.00, 12., '2024-09-30', 1),
+    (2, '2023-09-27', 15000.00, '2023-10-01', 1, 2, 600.00, 6, '2024-10-01', 2),
+    (3, '2023-09-28', 20000.00, '2023-10-02', 3, 3, 700.00, 4, '2024-10-02', 3),
+    (4, '2023-09-29', 25000.00, '2023-10-03', 2, 1, 800.00, 3, '2024-10-03', 1);
+   
+select * from InsurancePolicies1
+
+select * from InsurancePolicySchedule
+
+///trigger on the policy table
+CREATE OR REPLACE FUNCTION insert_policy_schedule()
+RETURNS TRIGGER AS $$
+DECLARE
+    schedule_date DATE;
+BEGIN
+    IF NEW.iplc_status = 'approved' AND NEW.iplc_paymode_count > 0 THEN
+        -- Calculate the schedule_date increment based on (12 / iplc_paymode_count) months
+        schedule_date := NEW.iplc_applicable_date;
+
+        FOR i IN 1..NEW.iplc_paymode_count LOOP
+            INSERT INTO InsurancePolicySchedule (iplc_id, iplc_sindex, iplc_date, iplc_premium, iplc_paid_date)
+            VALUES (NEW.iplc_id, i, schedule_date, NEW.iplc_yrly_prem_amount / NEW.iplc_paymode_count, NULL);
+
+            -- Increment the schedule_date by (12 / iplc_paymode_count) months
+            schedule_date := schedule_date + INTERVAL '1 month' * (12 / NEW.iplc_paymode_count);
+        END LOOP;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER policy_status_approval_trigger
+AFTER UPDATE ON InsurancePolicies1
+FOR EACH ROW
+EXECUTE FUNCTION insert_policy_schedule();
+
+UPDATE InsurancePolicies1 SET iplc_status = 'approved' WHERE iplc_id =1 ;
+
+
